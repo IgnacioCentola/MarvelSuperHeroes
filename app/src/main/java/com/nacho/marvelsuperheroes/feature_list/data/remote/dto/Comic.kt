@@ -1,4 +1,4 @@
-package com.nacho.marvelheroes.feature_list.data.remote.dto
+package com.nacho.marvelsuperheroes.feature_list.data.remote.dto
 
 data class Comic(
     val name: String,
