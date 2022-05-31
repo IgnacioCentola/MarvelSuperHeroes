@@ -1,4 +1,4 @@
-package com.nacho.marvelsuperheroes.feature_list.presentation.heroes
+package com.nacho.marvelsuperheroes.feature_list.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

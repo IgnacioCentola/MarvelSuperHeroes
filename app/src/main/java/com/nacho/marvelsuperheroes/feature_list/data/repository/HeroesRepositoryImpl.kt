@@ -1,4 +1,4 @@
-package com.nacho.marvelheroes.feature_list.data.repository
+package com.nacho.marvelsuperheroes.feature_list.data.repository
 
 import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroService
 import com.nacho.marvelsuperheroes.feature_list.domain.repository.HeroesRepository
@@ -20,7 +20,7 @@ class HeroesRepositoryImpl @Inject constructor(private val heroService: HeroServ
             ResultResponse(result.data.results)
         } else {
             ResultResponse(
-                hero = null,
+                heroes = null,
                 message = result.status
             )
         }
