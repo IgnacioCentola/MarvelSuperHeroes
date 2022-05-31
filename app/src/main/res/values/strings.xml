@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MarvelSuperheroes</string>
+    <string name="api_base_url">https://gateway.marvel.com:443</string>
 </resources>
