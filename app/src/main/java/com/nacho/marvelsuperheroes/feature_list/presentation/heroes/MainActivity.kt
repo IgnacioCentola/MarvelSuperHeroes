@@ -1,7 +1,8 @@
-package com.nacho.marvelsuperheroes
+package com.nacho.marvelsuperheroes.feature_list.presentation.heroes
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.nacho.marvelsuperheroes.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
