@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="hero"
             type="com.nacho.marvelsuperheroes.feature_list.data.remote.dto.Hero" />
@@ -61,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:text="@{hero.name}"
+                    android:text="@{hero.id}"
                     android:textAppearance="?attr/textAppearanceSubtitle1" />
             </LinearLayout>
 
