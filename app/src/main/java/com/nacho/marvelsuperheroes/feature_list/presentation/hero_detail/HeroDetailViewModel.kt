@@ -18,11 +18,6 @@ class HeroDetailViewModel @Inject constructor(
     private val _sharedFlow = MutableSharedFlow<ResultResponse>()
     val sharedFlow = _sharedFlow.asSharedFlow()
 
-    init {
-        //TODO : replace with hero id with SafeArgs
-        getHeroById(0)
-    }
-
     private fun getHeroById(id : Int){
         viewModelScope.launch {
             heroesUseCases.getHeroByIdUseCase(id).also {

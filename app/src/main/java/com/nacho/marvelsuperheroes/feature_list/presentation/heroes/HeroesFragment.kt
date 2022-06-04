@@ -87,15 +87,15 @@ class HeroesFragment : Fragment() {
     }
 
     private fun successState(data: List<Hero>) {
-        heroes.clear()
-        data.forEach {
-            heroes.add(it)
-        }
-        _adapter.notifyDataSetChanged()
         binding.apply {
             heroListRecyclerView.visibility = View.VISIBLE
             errorTextView.visibility = View.INVISIBLE
             noDataImageView.visibility = View.INVISIBLE
+        }
+        heroes.clear()
+        data.forEach {
+            heroes.add(it)
+            _adapter.notifyItemInserted(data.lastIndex)
         }
     }
 
