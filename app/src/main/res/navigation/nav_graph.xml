@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph.xml">
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/heroesFragment">
 
+    <fragment
+        android:id="@+id/heroesFragment"
+        android:name="com.nacho.marvelsuperheroes.feature_list.presentation.heroes.HeroesFragment"
+        android:label="HeroesFragment" >
+        <action
+            android:id="@+id/action_heroesFragment_to_heroDetailFragment"
+            app:destination="@id/heroDetailFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/heroDetailFragment"
+        android:name="com.nacho.marvelsuperheroes.feature_list.presentation.hero_detail.HeroDetailFragment"
+        android:label="HeroDetailFragment" >
+        <argument
+            android:name="heroId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>
