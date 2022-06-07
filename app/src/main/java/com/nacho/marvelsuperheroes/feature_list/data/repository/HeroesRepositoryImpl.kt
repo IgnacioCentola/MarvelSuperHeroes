@@ -12,16 +12,21 @@ class HeroesRepositoryImpl @Inject constructor(private val heroService: HeroServ
     override suspend fun getHeroById(id: Int) = getHeroResult(id)
 
     private suspend fun getHeroResult(id: Int? = null): ResultResponse {
-        val result =
+        var exception = ""
+        val result = try {
             if (id == null) heroService.getHeroes()
             else heroService.getHeroById(id)
+        } catch (ex: Exception) {
+            exception = ex.message.toString()
+            null
+        }
 
-        return if (result.code in 200..299) {
+        return if (result != null && result.code in 200..299) {
             ResultResponse(result.data.results)
         } else {
             ResultResponse(
                 heroes = null,
-                message = result.status
+                message = exception
             )
         }
     }
