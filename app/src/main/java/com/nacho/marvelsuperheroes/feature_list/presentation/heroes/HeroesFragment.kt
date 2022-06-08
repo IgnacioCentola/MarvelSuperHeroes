@@ -67,7 +67,7 @@ class HeroesFragment : Fragment() {
 
         }
 
-        fetchHeroes()
+        if(_adapter.itemCount == 0) fetchHeroes()
     }
 
     private fun fetchHeroes() {

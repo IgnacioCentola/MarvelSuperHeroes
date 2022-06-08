@@ -26,7 +26,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                app:contentScrim="@color/purple_700"
+                app:contentScrim="@color/primary_variant"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
                 app:toolbarId="@+id/collapsing_toolbar">
 
@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
-                    android:imageUrl="@{hero.thumbnail.path + hero.thumbnail.extension}"
+                    android:imageUrl="@{hero.thumbnail.path + '.' + hero.thumbnail.extension}"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/ic_launcher"
                     app:layout_collapseMode="parallax" />
@@ -47,7 +47,8 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@android:color/transparent"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:title="@{hero.name}" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -64,54 +65,86 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:layout_marginVertical="16dp"
-                    android:layout_gravity="center_horizontal"
                     android:id="@+id/tryAgainButton"
                     android:layout_width="wrap_content"
-                    android:text="@string/try_again"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/heroName_textView"
-                    style="@style/Title"
-                    android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginVertical="16dp"
-                    android:text="@{hero.name}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView"
-                    tools:text="Hero name" />
+                    android:text="@string/try_again" />
+
 
                 <TextView
                     android:id="@+id/heroDescription_textView"
+                    style="@style/InfoText_Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
                     android:text="@{hero.description}"
                     tools:text="Hero description" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/comics_ChipGroup"
-                    android:layout_width="match_parent"
+                <TextView
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comics" />
+
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp">
 
-                </com.google.android.material.chip.ChipGroup>
+                    <com.google.android.material.chip.ChipGroup
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/series_ChipGroup"
-                    android:layout_width="match_parent"
+                        android:id="@+id/comics_ChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipSpacingHorizontal="8dp">
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <TextView
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Series" />
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp">
 
-                </com.google.android.material.chip.ChipGroup>
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/series_ChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipSpacingHorizontal="8dp">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/stories_ChipGroup"
-                    android:layout_width="match_parent"
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <TextView
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stories" />
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp">
 
-                </com.google.android.material.chip.ChipGroup>
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/stories_ChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipSpacingHorizontal="8dp">
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

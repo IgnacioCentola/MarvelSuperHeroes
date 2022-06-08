@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="hero"
             type="com.nacho.marvelsuperheroes.feature_list.data.remote.dto.Hero" />
+
         <variable
             name="handlers"
             type="com.nacho.marvelsuperheroes.feature_list.presentation.util.NavigationHandlers" />
@@ -18,7 +19,7 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{(v) -> handlers.onGoToHeroDetail(v, hero)}"
+        android:onClick="@{(v) -> handlers.onGoToHeroDetail(v, hero.id)}"
         android:padding="8dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
@@ -28,6 +29,7 @@
             android:id="@+id/linearLayout_hero_item"
             android:layout_width="match_parent"
             android:layout_height="125dp"
+            android:layout_marginVertical="8dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -36,13 +38,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="2"
-                android:imageUrl="@{hero.thumbnail.path + hero.thumbnail.extension}"
+                android:imageUrl="@{hero.thumbnail.path + '.' + hero.thumbnail.extension}"
                 android:src="@mipmap/ic_launcher" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:orientation="vertical">
 
@@ -50,6 +51,7 @@
                     android:id="@+id/hero_name_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@{hero.name}"
