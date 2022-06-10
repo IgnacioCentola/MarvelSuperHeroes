@@ -2,12 +2,11 @@ package com.nacho.marvelsuperheroes.feature_list.presentation.heroes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nacho.marvelsuperheroes.feature_list.domain.repository.ResultResponse
 import com.nacho.marvelsuperheroes.feature_list.domain.use_case.HeroesUseCases
 import com.nacho.marvelsuperheroes.feature_list.presentation.util.HeroesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,18 +15,17 @@ class HeroesViewModel @Inject constructor(
     private val heroesUseCases: HeroesUseCases
 ) : ViewModel() {
 
-    private val _sharedFlow = MutableSharedFlow<HeroesUiState>()
-    val sharedFlow = _sharedFlow.asSharedFlow()
+    private val _uiState = MutableStateFlow<HeroesUiState>(HeroesUiState.Loading)
+    val uiState: StateFlow<HeroesUiState> = _uiState
 
 
     fun getHeroes() {
         viewModelScope.launch {
-            _sharedFlow.emit(HeroesUiState.Loading)
             heroesUseCases.getHeroesUseCase().also {
                 if (it.heroes.isNullOrEmpty()) {
-                    _sharedFlow.emit(HeroesUiState.Error(it.message))
+                    _uiState.value = HeroesUiState.Error(it.message)
                 } else {
-                    _sharedFlow.emit(HeroesUiState.Success(it.heroes))
+                    _uiState.value = HeroesUiState.Success(it.heroes)
                 }
             }
         }

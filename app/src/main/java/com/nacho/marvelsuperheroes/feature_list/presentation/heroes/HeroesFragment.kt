@@ -24,13 +24,19 @@ import kotlinx.coroutines.flow.collectLatest
 class HeroesFragment : Fragment() {
 
     private val heroes = arrayListOf<Hero>()
-    private val _adapter = HeroesAdapter(heroes)
+    private lateinit var _adapter : HeroesAdapter
 
     private val viewModel by viewModels<HeroesViewModel>()
 
     private lateinit var binding: FragmentHeroesBinding
 
     private lateinit var loadingDialog : AlertDialog
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        _adapter = HeroesAdapter(heroes)
+        loadingDialog = getLoadingDialog()
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +48,6 @@ class HeroesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadingDialog = getLoadingDialog()
         binding.apply {
             heroListRecyclerView.apply {
                 layoutManager =
@@ -73,7 +78,7 @@ class HeroesFragment : Fragment() {
     private fun fetchHeroes() {
         viewModel.getHeroes()
         lifecycleScope.launchWhenStarted {
-            viewModel.sharedFlow.collectLatest {
+            viewModel.uiState.collectLatest {
                 when (it) {
                     HeroesUiState.Loading -> loadingState()
                     is HeroesUiState.Error -> errorState(it.errorMsg)

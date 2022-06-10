@@ -20,7 +20,9 @@ import com.nacho.marvelsuperheroes.feature_list.presentation.util.HeroesUiState
 import com.nacho.marvelsuperheroes.feature_list.presentation.util.showErrorMessage
 import com.nacho.marvelsuperheroes.feature_list.presentation.util.getLoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HeroDetailFragment : Fragment() {
@@ -40,27 +42,28 @@ class HeroDetailFragment : Fragment() {
     ): View {
         binding = FragmentHeroDetailBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        loadingDialog = getLoadingDialog()
-        loadingState()
-        getHero()
-        binding.apply {
-            tryAgainButton.setOnClickListener {
-                this@HeroDetailFragment.getHero()
-            }
-
-        }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadingDialog = getLoadingDialog()
+        getHero()
     }
 
 
     private fun getHero() {
         lifecycleScope.launchWhenStarted {
             heroDetailViewModel.getHeroById(args.heroId)
-            heroDetailViewModel.sharedFlow.collectLatest {
+            heroDetailViewModel.uiState.collect {
                 when (it) {
                     HeroesUiState.Loading -> loadingState()
                     is HeroesUiState.Error -> errorState(it.errorMsg)
-                    is HeroesUiState.Success -> successState(it.heroes)
+                    is HeroesUiState.Success -> {
+                        it.heroes?.let { heroes ->
+                            successState(heroes[0])
+                        }
+                    }
                 }
             }
         }
@@ -69,7 +72,8 @@ class HeroDetailFragment : Fragment() {
     private fun addChip(text: String, chipType: ChipType) {
         val chip = Chip(this.context).apply {
             this.text = text
-            chipBackgroundColor = this@HeroDetailFragment.context?.let { ColorStateList.valueOf(it.getColor(R.color.primary_variant)) }
+            chipBackgroundColor =
+                this@HeroDetailFragment.context?.let { ColorStateList.valueOf(it.getColor(R.color.primary_variant)) }
         }
 
         when (chipType) {
@@ -79,24 +83,24 @@ class HeroDetailFragment : Fragment() {
         }
     }
 
-    private fun successState(heroes: List<Hero>?) {
+    private fun successState(hero: Hero) {
         loadingDialog.dismiss()
         binding.apply {
-            hero = heroes?.get(0)
+            this.hero = hero
             heroDescriptionTextView.visibility = View.VISIBLE
             seriesChipGroup.visibility = View.VISIBLE
             comicsChipGroup.visibility = View.VISIBLE
             storiesChipGroup.visibility = View.VISIBLE
             tryAgainButton.visibility = View.GONE
-            hero?.comics?.items?.forEach {
+            hero.comics.items.forEach {
                 addChip(it.name, ChipType.COMICS)
                 Log.d("HeroDetailFragment", it.toString())
             }
-            hero?.series?.items?.forEach {
+            hero.series.items.forEach {
                 addChip(it.name, ChipType.SERIES)
                 Log.d("HeroDetailFragment", it.toString())
             }
-            hero?.stories?.items?.forEach {
+            hero.stories.items.forEach {
                 addChip(it.name, ChipType.STORIES)
                 Log.d("HeroDetailFragment", it.toString())
             }
@@ -111,8 +115,12 @@ class HeroDetailFragment : Fragment() {
             comicsChipGroup.visibility = View.GONE
             storiesChipGroup.visibility = View.GONE
             tryAgainButton.visibility = View.VISIBLE
+
+            tryAgainButton.setOnClickListener {
+                this@HeroDetailFragment.getHero()
+            }
+            showErrorMessage(errorMsg)
         }
-        showErrorMessage(errorMsg)
     }
 
     private fun loadingState() {
