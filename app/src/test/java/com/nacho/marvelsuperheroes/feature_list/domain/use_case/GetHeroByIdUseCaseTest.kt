@@ -3,10 +3,9 @@ package com.nacho.marvelsuperheroes.feature_list.domain.use_case
 import com.nacho.marvelsuperheroes.feature_list.data.remote.dto.*
 import com.nacho.marvelsuperheroes.feature_list.domain.repository.FakeHeroesRepository
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.*
 import java.io.IOException
 
 class GetHeroByIdUseCaseTest {
@@ -43,6 +42,7 @@ class GetHeroByIdUseCaseTest {
 
             val result = getHeroByIdUseCase(hero.id)
 
+            assertNotNull(result.heroes)
             assertEquals(result.heroes?.size, 1)
             assertEquals(fakeHeroesRepository.getHeroes().heroes, result.heroes)
 
@@ -55,7 +55,7 @@ class GetHeroByIdUseCaseTest {
             fakeHeroesRepository.setShouldReturnNetworkError(true)
             val result = getHeroByIdUseCase(hero.id)
 
-            assertEquals(null, result.heroes)
+            assertNull(result.heroes)
             assertEquals(IOException().message.toString(), result.message)
         }
     }

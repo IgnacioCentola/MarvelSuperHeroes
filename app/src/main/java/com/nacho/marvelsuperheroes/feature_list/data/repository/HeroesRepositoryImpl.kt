@@ -1,7 +1,7 @@
 package com.nacho.marvelsuperheroes.feature_list.data.repository
 
 import com.google.gson.Gson
-import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroError
+import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroApiError
 import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroService
 import com.nacho.marvelsuperheroes.feature_list.domain.repository.HeroesRepository
 import com.nacho.marvelsuperheroes.feature_list.domain.model.ResultResponse
@@ -30,7 +30,7 @@ class HeroesRepositoryImpl @Inject constructor(private val heroService: HeroServ
             ResultResponse(response.body()?.data?.results)
         } else {
             val gson = Gson()
-            val heroError = gson.fromJson(response.errorBody()?.charStream(), HeroError::class.java)
+            val heroError = gson.fromJson(response.errorBody()?.charStream(), HeroApiError::class.java)
             ResultResponse(
                 heroes = null,
                 message = heroError.message
