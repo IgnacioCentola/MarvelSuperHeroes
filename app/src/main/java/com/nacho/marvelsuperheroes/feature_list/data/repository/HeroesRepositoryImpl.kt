@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroApiError
 import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroService
 import com.nacho.marvelsuperheroes.feature_list.domain.repository.HeroesRepository
-import com.nacho.marvelsuperheroes.feature_list.domain.model.ResultResponse
+import com.nacho.marvelsuperheroes.feature_list.domain.model.HeroLocalResponse
 import java.io.IOException
 import javax.inject.Inject
 
@@ -14,24 +14,24 @@ class HeroesRepositoryImpl @Inject constructor(private val heroService: HeroServ
 
     override suspend fun getHeroById(id: Int) = getHeroResult(id)
 
-    private suspend fun getHeroResult(id: Int? = null): ResultResponse {
+    private suspend fun getHeroResult(id: Int? = null): HeroLocalResponse {
 
         val response = try {
             if (id == null) heroService.getHeroes()
             else heroService.getHeroById(id)
         } catch (ex: IOException) {
-            return ResultResponse(
+            return HeroLocalResponse(
                 heroes = null,
                 message = ex.message.toString()
             )
         }
 
         return if (response.isSuccessful) {
-            ResultResponse(response.body()?.data?.results)
+            HeroLocalResponse(response.body()?.data?.results)
         } else {
             val gson = Gson()
             val heroError = gson.fromJson(response.errorBody()?.charStream(), HeroApiError::class.java)
-            ResultResponse(
+            HeroLocalResponse(
                 heroes = null,
                 message = heroError.message
             )

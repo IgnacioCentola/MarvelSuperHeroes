@@ -2,6 +2,7 @@ package com.nacho.marvelsuperheroes.feature_list.domain.use_case
 
 import com.nacho.marvelsuperheroes.feature_list.data.remote.dto.*
 import com.nacho.marvelsuperheroes.feature_list.domain.repository.FakeHeroesRepository
+import com.nacho.marvelsuperheroes.feature_list.getFakeHero
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -18,20 +19,7 @@ class GetHeroByIdUseCaseTest {
     fun setUp() {
         fakeHeroesRepository = FakeHeroesRepository()
         getHeroByIdUseCase = GetHeroByIdUseCase(fakeHeroesRepository)
-        hero = Hero(
-            id = 1,
-            name = "name",
-            description = "dsc",
-            modified = "now",
-            thumbnail = Thumbnail("", ""),
-            resourceURI = "uri",
-            etag = "tag",
-            comics = Comics(0, "", emptyList(), 1),
-            stories = Stories(0, "", emptyList(), 1),
-            series = Series(0, "", emptyList(), 1),
-            events = Events(0, "", emptyList(), 1),
-            urls = emptyList()
-        )
+        hero = getFakeHero()
     }
 
     @Test

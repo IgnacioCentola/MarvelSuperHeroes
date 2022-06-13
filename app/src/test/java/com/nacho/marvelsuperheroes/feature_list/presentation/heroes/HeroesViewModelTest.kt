@@ -39,7 +39,7 @@ class HeroesViewModelTest {
     }
 
     @Test
-    fun getHeroes_success_returnHeroList() {
+    fun getHeroes_success_returnSuccessStateWithHeroList() {
         runBlockingTest {
             viewModel.getHeroes()
             val result = viewModel.uiState.value
@@ -50,7 +50,7 @@ class HeroesViewModelTest {
     }
 
     @Test
-    fun getHeroes_error_returnNullListAndErrorMessage() {
+    fun getHeroes_error_returnErrorStateAndErrorMessage() {
         runBlockingTest {
             fakeHeroesRepository.setShouldReturnNetworkError(true)
             viewModel.getHeroes()

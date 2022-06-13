@@ -1,26 +1,14 @@
 package com.nacho.marvelsuperheroes.feature_list.domain.repository
 
 import com.nacho.marvelsuperheroes.feature_list.data.remote.dto.*
-import com.nacho.marvelsuperheroes.feature_list.domain.model.ResultResponse
+import com.nacho.marvelsuperheroes.feature_list.domain.model.HeroLocalResponse
+import com.nacho.marvelsuperheroes.feature_list.getFakeHero
 import java.io.IOException
 
 class FakeHeroesRepository : HeroesRepository {
 
     private val heroes = arrayListOf(
-        Hero(
-            id = 1,
-            name = "name",
-            description = "dsc",
-            modified = "now",
-            thumbnail = Thumbnail("", ""),
-            resourceURI = "uri",
-            etag = "tag",
-            comics = Comics(0, "", emptyList(), 1),
-            stories = Stories(0, "", emptyList(), 1),
-            series = Series(0, "", emptyList(), 1),
-            events = Events(0, "", emptyList(), 1),
-            urls = emptyList()
-        )
+        getFakeHero()
     )
 
     private var shouldReturnNetworkError = false
@@ -38,8 +26,8 @@ class FakeHeroesRepository : HeroesRepository {
     override suspend fun getHeroById(id: Int) = heroes()
 
     private fun heroes() = if (shouldReturnNetworkError) {
-        ResultResponse(null, IOException().message.toString())
+        HeroLocalResponse(null, IOException().message.toString())
     } else {
-        ResultResponse(heroes)
+        HeroLocalResponse(heroes)
     }
 }
