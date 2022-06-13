@@ -2,11 +2,9 @@ package com.nacho.marvelsuperheroes.feature_list.data.repository
 
 import com.google.gson.Gson
 import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroError
-import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroResponse
 import com.nacho.marvelsuperheroes.feature_list.data.remote.HeroService
 import com.nacho.marvelsuperheroes.feature_list.domain.repository.HeroesRepository
-import com.nacho.marvelsuperheroes.feature_list.domain.repository.ResultResponse
-import retrofit2.Response
+import com.nacho.marvelsuperheroes.feature_list.domain.model.ResultResponse
 import java.io.IOException
 import javax.inject.Inject
 

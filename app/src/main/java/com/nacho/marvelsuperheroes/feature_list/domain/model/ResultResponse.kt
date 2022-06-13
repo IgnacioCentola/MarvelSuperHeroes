@@ -1,4 +1,4 @@
-package com.nacho.marvelsuperheroes.feature_list.domain.repository
+package com.nacho.marvelsuperheroes.feature_list.domain.model
 
 import com.nacho.marvelsuperheroes.feature_list.data.remote.dto.Hero
 
